@@ -1,0 +1,23 @@
+###export PATH=$PATH:/home/b2315/DYQ/soft/bowtie-1.2.1.1/
+export PATH=$PATH:/home/b2315/DYQ/soft/tophat-2.1.1.Linux_x86_64/
+export PATH=$PATH:/home/b2315/DYQ/soft/samtools-1.9/
+export PATH=$PATH:/home/b2315/DYQ/soft/bowtie2-2.3.5-linux-x86_64
+1、build
+bowtie-build GCF_000012245.1_ASM1224v1_genomic.fna  PS
+2、mapping
+### tophat -p 20 -G ./genome/PS.gff --library-type fr-unstranded ./genome/PS -o ./result/ 1448A-rhpS-KB-1_combined_R1.fastq 1448A-rhpS-KB-1_combined_R2.fastq
+
+tophat -p 30 -G ./PS/PS2.gff --library-type fr-unstranded ./PS/PS2 1448A-rhpS-KB-2_combined_R1.fastq 1448A-rhpS-KB-2_combined_R2.fastq
+tophat -p 30 -G ./PS/PS2.gff --library-type fr-unstranded ./PS/PS2 1448A-rhpS-KB-2_combined_R1.fastq 1448A-rhpS-KB-2_combined_R2.fastq
+
+tophat -p 30 -G ./PS/PS2.gff --library-type fr-unstranded ./PS/PS2 1448A-WT-KB-1_combined_R1.fastq 1448A-WT-KB-1_combined_R2.fastq
+
+tophat -p 30 -G ../PS/PS2.gff --library-type fr-unstranded ../PS/PS2 1448A-WT-KB-2_combined_R1.fastq 1448A-WT-KB-2_combined_R2.fastq
+
+
+
+Cufflinks 
+cuffdiff -o ./result/ -L  WT_1,rhps_1 --FDR 0.05 -b ./PS/PS2.fa  --library-type fr-unstranded -p 20  --dispersion-method poisson --max-bundle-frags 20000000  -u ./PS/PS2.gff ./WT-KB-1_result/accepted_hits.bam ./rhps-KB-1_result/accepted_hits.bam  
+
+
+cuffdiff -o ./result/rhps_WT_2 -L  WT_2,rhps_2 --FDR 0.05 -b ./PS/PS2.fa  --library-type fr-unstranded -p 20  --dispersion-method poisson --max-bundle-frags 20000000  -u ./PS/PS2.gff ./WT-KB-2_result/accepted_hits.bam ./rhps-KB-2_result/accepted_hits.bam 
